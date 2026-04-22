@@ -29,16 +29,33 @@
       justify-content: center;
       padding: 2rem 1rem 6rem;
       position: relative;
-      cursor: var(--snoopy-cursor) 16 16, auto;
+      cursor: auto;
     }
 
-    button,
-    a,
-    [role='button'],
-    .kitty-clickable,
-    #gift-screen,
-    #music-btn {
-      cursor: var(--snoopy-cursor) 16 16, pointer;
+    @media (hover: hover) and (pointer: fine) {
+      body {
+        cursor: var(--snoopy-cursor) 16 16, auto;
+      }
+
+      button,
+      a,
+      [role='button'],
+      .kitty-clickable,
+      #gift-screen,
+      #music-btn {
+        cursor: var(--snoopy-cursor) 16 16, pointer;
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      button,
+      a,
+      [role='button'],
+      .kitty-clickable,
+      #gift-screen,
+      #music-btn {
+        cursor: pointer;
+      }
     }
 
     /* ── Pantalla de regalo ── */
