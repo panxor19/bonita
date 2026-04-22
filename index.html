@@ -39,6 +39,9 @@
       background: linear-gradient(135deg, #ffe0ec 0%, #ffb6c8 40%, #f48fb1 100%);
       cursor: pointer;
       transition: opacity 0.7s ease, transform 0.7s ease;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
     }
 
     #gift-screen.hide {
@@ -169,23 +172,20 @@
       50%       { transform: translateY(-14px); }
     }
 
-    /* ── Tarjeta ── */
+    /* ── Tarjeta estilo papel Hello Kitty ── */
     .card {
       position: relative;
       z-index: 2;
-      background: rgba(255,255,255,0.65);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(255,255,255,0.8);
-      border-radius: 2rem;
-      padding: 3rem 2.5rem 2.5rem;
-      max-width: 640px;
+      background: white;
+      border: 2.5px solid #f8bbd0;
+      border-radius: 1.2rem;
+      max-width: 620px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 8px 40px rgba(244,143,177,0.35);
+      box-shadow: 0 8px 40px rgba(244,143,177,0.45);
       opacity: 0;
       transform: scale(0.88) translateY(30px);
       transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+      overflow: hidden;
     }
 
     .card.show {
@@ -193,6 +193,81 @@
       transform: scale(1) translateY(0);
     }
 
+    /* Cabecera */
+    .hk-card-header {
+      border-bottom: 2px solid #fce4ec;
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      background: white;
+    }
+
+    .hk-card-header .hk-corner-img {
+      width: 56px;
+      filter: drop-shadow(0 2px 6px rgba(244,143,177,.4));
+    }
+
+    .hk-flip { transform: scaleX(-1); }
+
+    .hk-logo {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #c2185b;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Cuerpo: bordes laterales + papel */
+    .hk-card-body {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .hk-border-col {
+      width: 40px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 2px;
+      font-size: 1.05rem;
+      background: white;
+      border-right: 1.5px solid #fce4ec;
+    }
+
+    .hk-border-col.right {
+      border-right: none;
+      border-left: 1.5px solid #fce4ec;
+    }
+
+    /* Papel rayado */
+    .hk-paper {
+      flex: 1;
+      padding: 1.5rem 1.1rem 1.4rem;
+      background: repeating-linear-gradient(
+        white 0px,
+        white 27px,
+        #fce4ec 27px,
+        #fce4ec 28.5px
+      );
+      text-align: center;
+    }
+
+    /* Footer flores */
+    .hk-card-footer {
+      border-top: 2px solid #fce4ec;
+      padding: 0.5rem 0.4rem;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      background: white;
+    }
+
+    /* Contenido */
     .card .badge {
       display: inline-block;
       background: linear-gradient(135deg, #f48fb1, #e91e8c);
@@ -203,12 +278,12 @@
       text-transform: uppercase;
       padding: 0.35rem 1.1rem;
       border-radius: 999px;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.2rem;
     }
 
     .card h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-size: clamp(1.8rem, 5.5vw, 2.6rem);
       color: #c2185b;
       line-height: 1.25;
       margin-bottom: 0.5rem;
@@ -217,16 +292,16 @@
     .card .sub {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #e91e8c;
-      margin-bottom: 2rem;
+      margin-bottom: 1.6rem;
     }
 
     .divider {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin: 0 auto 2rem;
+      margin: 0 auto 1.6rem;
       width: 80%;
       color: #f48fb1;
     }
@@ -239,20 +314,20 @@
     }
 
     .card p {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 300;
       color: #5d1a3a;
       line-height: 1.85;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.2rem;
       text-align: left;
     }
 
     .card .closing {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #c2185b;
-      margin-top: 1.5rem;
+      margin-top: 1.3rem;
       text-align: center;
     }
 
@@ -287,13 +362,29 @@
         padding: 1.3rem 0.8rem 5.4rem;
       }
 
-      .card {
-        padding: 2rem 1.25rem 2rem;
-        border-radius: 1.4rem;
+      .hk-paper {
+        padding: 1.2rem 0.7rem 1.2rem;
+      }
+
+      .hk-border-col {
+        width: 32px;
+        font-size: 0.88rem;
+      }
+
+      .hk-card-header .hk-corner-img {
+        width: 42px;
+      }
+
+      .hk-logo {
+        font-size: 0.9rem;
+      }
+
+      .card h1 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
       }
 
       .card p {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         line-height: 1.72;
       }
 
@@ -320,7 +411,6 @@
   <div id="gift-screen" onclick="openGift()">
     <div class="gift-sparkles" id="sparkles-bg"></div>
     <div class="gift-box" id="gift-box">🎁</div>
-    <p class="gift-hint" id="gift-hint">Toca el regalo 5 veces para abrirlo 🌸</p>
   </div>
 
   <div id="opening-kitty" aria-hidden="true">
@@ -341,42 +431,78 @@
 
   <!-- Tarjeta principal -->
   <div class="card" id="card">
-    <div class="badge">✨ Hoy es tu día ✨</div>
-    <h1>Feliz Cumpleaños,<br/>mi Bonita 🌸</h1>
-    <p class="sub">Que este añito nuevo sea todo lo bonito que tú eres</p>
 
-    <div class="divider">🎂</div>
+    <!-- Cabecera Hello Kitty -->
+    <div class="hk-card-header">
+      <img src="https://media.tenor.com/GrU2xczpUhsAAAAj/hello-kitty-hearts.gif" alt="Hello Kitty" class="hk-corner-img"/>
+      <div class="hk-logo">💝 Feliz Cumpleaños 💝</div>
+      <img src="https://media.tenor.com/GrU2xczpUhsAAAAj/hello-kitty-hearts.gif" alt="Hello Kitty" class="hk-corner-img hk-flip"/>
+    </div>
 
-    <p>
-      Hoy es un día que merece ser celebrado con todo, porque llegaste tú al mundo, 
-      y eso es algo que vale mucho la pena festejar. Espero que desde que abras los 
-      ojos sientas que este día es especial, que te consientan, que te hagan sentir 
-      querida y que cada detallito del día te haga sonreír.
-    </p>
+    <!-- Cuerpo -->
+    <div class="hk-card-body">
 
-    <p>
-      Quiero que este nuevo año de vida venga cargado de cosas bonitas para ti: 
-      de calma cuando la necesites, de sueños que poco a poco se vayan haciendo 
-      realidad, de momentos que te hagan el corazón grande y de personas que te 
-      quieran bien. Ojalá sea un año más liviano, con menos peso encima 
-      y más espacio para las cosas que te hacen bien.
-    </p>
+      <!-- Borde izquierdo -->
+      <div class="hk-border-col left">
+        <span>💗</span><span>🎀</span><span>💗</span><span>✨</span>
+        <span>💗</span><span>🎀</span><span>💗</span><span>✨</span>
+        <span>💗</span><span>🎀</span><span>💗</span><span>✨</span>
+        <span>💗</span><span>🎀</span>
+      </div>
 
-    <p>
-      Siempre voy a querer que estés bien, que seas feliz y que la vida te trate 
-      con la misma dulzura con la que tú tratas a quienes te rodean. Te lo mereces 
-      todo, mi Bonita.
-    </p>
+      <!-- Papel con contenido -->
+      <div class="hk-paper">
+        <div class="badge">✨ Hoy es tu día ✨</div>
+        <h1>Feliz Cumpleaños,<br/>mi Bonita 🌸</h1>
+        <p class="sub">Que este añito nuevo sea todo lo bonito que tú eres</p>
 
-    <p>
-      Que nunca te falten risas, abrazos, días de sol y personas que te elijan. 
-      Que este cumpleaños sea solo el inicio de algo muy bonito que está por venir. 💕
-    </p>
+        <div class="divider">🎂</div>
 
-    <p class="closing">
-      Pásalo increíble hoy. Ríete mucho y disfruta cada momento como tú sabes hacerlo. 🎉<br/>
-      <br/>Un abrazo enorme 💫
-    </p>
+        <p>
+          Hoy es un día que merece ser celebrado con todo, porque llegaste tú al mundo,
+          y eso es algo que vale mucho la pena festejar. Espero que desde que abras los
+          ojos sientas que este día es especial, que te consientan, que te hagan sentir
+          querida y que cada detallito del día te haga sonreír.
+        </p>
+
+        <p>
+          Quiero que este nuevo año de vida venga cargado de cosas bonitas para ti:
+          de calma cuando la necesites, de sueños que poco a poco se vayan haciendo
+          realidad, de momentos que te hagan el corazón grande y de personas que te
+          quieran bien. Ojalá sea un año más liviano, con menos peso encima
+          y más espacio para las cosas que te hacen bien.
+        </p>
+
+        <p>
+          Siempre voy a querer que estés bien, que seas feliz y que la vida te trate
+          con la misma dulzura con la que tú tratas a quienes te rodean. Te lo mereces
+          todo, mi Bonita.
+        </p>
+
+        <p>
+          Que nunca te falten risas, abrazos, días de sol y personas que te elijan.
+          Que este cumpleaños sea solo el inicio de algo muy bonito que está por venir. 💕
+        </p>
+
+        <p class="closing">
+          Pásalo increíble hoy. Ríete mucho y disfruta cada momento como tú sabes hacerlo. 🎉<br/>
+          <br/>Un abrazo enorme 💫
+        </p>
+      </div>
+
+      <!-- Borde derecho -->
+      <div class="hk-border-col right">
+        <span>✨</span><span>💗</span><span>🎀</span><span>💗</span>
+        <span>✨</span><span>💗</span><span>🎀</span><span>💗</span>
+        <span>✨</span><span>💗</span><span>🎀</span><span>💗</span>
+        <span>✨</span><span>💗</span>
+      </div>
+
+    </div>
+
+    <!-- Footer flores -->
+    <div class="hk-card-footer">🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸</div>
+
   </div>
 
   <!-- GIFs decorativos esquinas -->
@@ -402,20 +528,15 @@
 
       giftTaps += 1;
       const remaining = REQUIRED_TAPS - giftTaps;
-      const hint = document.getElementById('gift-hint');
       const box = document.getElementById('gift-box');
 
-      // Pequeño feedback visual en cada toque
+      // Feedback visual en cada toque
       box.style.transform = 'scale(1.18) rotate(4deg)';
       setTimeout(() => { box.style.transform = ''; }, 160);
 
-      if (remaining > 0) {
-        hint.textContent = `Te faltan ${remaining} toque${remaining === 1 ? '' : 's'} 💖`;
-        return;
-      }
+      if (remaining > 0) return;
 
       giftOpened = true;
-      hint.textContent = 'Abriendo sorpresa... ✨';
 
       // 1. Esconder pantalla regalo
       document.getElementById('gift-screen').classList.add('hide');
