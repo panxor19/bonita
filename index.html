@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz Cumpleaños, mi Bonita 🌸</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffe0ec 0%, #ffb6c8 40%, #f48fb1 100%);
+      font-family: 'Lato', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 6rem;
+      position: relative;
+    }
+
+    /* ── Pantalla de regalo ── */
+    #gift-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffe0ec 0%, #ffb6c8 40%, #f48fb1 100%);
+      cursor: pointer;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    #gift-screen.hide {
+      opacity: 0;
+      transform: scale(1.08);
+      pointer-events: none;
+    }
+
+    .gift-box {
+      font-size: 6rem;
+      animation: giftPulse 1.6s ease-in-out infinite;
+      filter: drop-shadow(0 8px 24px rgba(233,30,140,.4));
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    #gift-screen:hover .gift-box {
+      animation: none;
+      transform: scale(1.15) rotate(-5deg);
+    }
+
+    @keyframes giftPulse {
+      0%, 100% { transform: scale(1) rotate(-3deg); }
+      50%       { transform: scale(1.12) rotate(3deg); }
+    }
+
+    .gift-hint {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      color: #c2185b;
+      text-align: center;
+      padding: 0 1.5rem;
+      animation: hintFade 2.2s ease-in-out infinite;
+    }
+
+    @keyframes hintFade {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .gift-sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* ── Hello Kitty de apertura ── */
+    #opening-kitty {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    #opening-kitty img {
+      width: min(58vw, 360px);
+      max-width: 82vw;
+      filter: drop-shadow(0 14px 28px rgba(233,30,140,.35));
+      transform: scale(0.7);
+    }
+
+    #opening-kitty.show {
+      opacity: 1;
+      animation: kittyOverlayFade 1.8s ease forwards;
+    }
+
+    #opening-kitty.show img {
+      animation: kittyPop 1.8s ease forwards;
+    }
+
+    @keyframes kittyOverlayFade {
+      0%, 55% { opacity: 1; }
+      100%    { opacity: 0; }
+    }
+
+    @keyframes kittyPop {
+      0%   { transform: scale(0.68) translateY(18px); }
+      35%  { transform: scale(1.03) translateY(0); }
+      100% { transform: scale(0.9) translateY(-8px); }
+    }
+
+    /* ── Stickers flotantes (HK / Snoopy) ── */
+    .stickers-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .sticker {
+      position: absolute;
+      bottom: -80px;
+      opacity: 0;
+      animation: floatUp linear forwards;
+    }
+
+    .sticker img {
+      width: 52px;
+      filter: drop-shadow(0 2px 8px rgba(244,143,177,.6));
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(-8deg) scale(0.8); opacity: 0; }
+      8%   { opacity: 1; }
+      85%  { opacity: 0.7; }
+      100% { transform: translateY(-115vh) rotate(10deg) scale(1); opacity: 0; }
+    }
+
+    /* ── GIFs decorativos esquinas ── */
+    .gif-wrapper {
+      position: fixed;
+      z-index: 1;
+      animation: floatBounce 3s ease-in-out infinite;
+    }
+    .gif-wrapper.left  { bottom: 1.5rem; left:  1.5rem; }
+    .gif-wrapper.right { bottom: 1.5rem; right: 1.5rem; }
+    .gif-wrapper img   { width: 110px; filter: drop-shadow(0 4px 12px rgba(244,143,177,.5)); }
+
+    @keyframes floatBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    /* ── Tarjeta ── */
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      border-radius: 2rem;
+      padding: 3rem 2.5rem 2.5rem;
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(244,143,177,0.35);
+      opacity: 0;
+      transform: scale(0.88) translateY(30px);
+      transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .card .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #f48fb1, #e91e8c);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.35rem 1.1rem;
+      border-radius: 999px;
+      margin-bottom: 1.4rem;
+    }
+
+    .card h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      color: #c2185b;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+
+    .card .sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #e91e8c;
+      margin-bottom: 2rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 auto 2rem;
+      width: 80%;
+      color: #f48fb1;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #f48fb1, transparent);
+    }
+
+    .card p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: #5d1a3a;
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .card .closing {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: #c2185b;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    /* ── Botón de música ── */
+    #music-btn {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 10;
+      background: linear-gradient(135deg, #f48fb1, #e91e8c);
+      border: none;
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.55rem 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(233,30,140,.4);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #music-btn.show { opacity: 1; pointer-events: auto; transition: opacity 0.6s ease 0.8s, transform 0.2s, box-shadow 0.2s; }
+    #music-btn:hover { transform: scale(1.07); box-shadow: 0 6px 24px rgba(233,30,140,.5); }
+    #music-btn .icon { font-size: 1.15rem; }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1.3rem 0.8rem 5.4rem;
+      }
+
+      .card {
+        padding: 2rem 1.25rem 2rem;
+        border-radius: 1.4rem;
+      }
+
+      .card p {
+        font-size: 0.95rem;
+        line-height: 1.72;
+      }
+
+      .gif-wrapper.left  { left: 0.4rem; bottom: 0.5rem; }
+      .gif-wrapper.right { right: 0.4rem; bottom: 0.5rem; }
+      .gif-wrapper img   { width: 82px; }
+
+      #music-btn {
+        top: 0.7rem;
+        right: 0.7rem;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.78rem;
+      }
+
+      #opening-kitty img {
+        width: min(74vw, 300px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de regalo -->
+  <div id="gift-screen" onclick="openGift()">
+    <div class="gift-sparkles" id="sparkles-bg"></div>
+    <div class="gift-box" id="gift-box">🎁</div>
+    <p class="gift-hint" id="gift-hint">Toca el regalo 5 veces para abrirlo 🌸</p>
+  </div>
+
+  <div id="opening-kitty" aria-hidden="true">
+    <img src="https://media.tenor.com/GrU2xczpUhsAAAAj/hello-kitty-hearts.gif" alt="Hello Kitty grande" />
+  </div>
+
+  <!-- Botón de música -->
+  <button id="music-btn" onclick="toggleMusic()" title="Reproducir música">
+    <span class="icon" id="music-icon">🎵</span>
+    <span id="music-label">Reproducir</span>
+  </button>
+  <audio id="audio" loop>
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Stickers flotantes -->
+  <div class="stickers-container" id="stickers"></div>
+
+  <!-- Tarjeta principal -->
+  <div class="card" id="card">
+    <div class="badge">✨ Hoy es tu día ✨</div>
+    <h1>Feliz Cumpleaños,<br/>mi Bonita 🌸</h1>
+    <p class="sub">Que este añito nuevo sea todo lo bonito que tú eres</p>
+
+    <div class="divider">🎂</div>
+
+    <p>
+      Hoy es un día que merece ser celebrado con todo, porque llegaste tú al mundo, 
+      y eso es algo que vale mucho la pena festejar. Espero que desde que abras los 
+      ojos sientas que este día es especial, que te consientan, que te hagan sentir 
+      querida y que cada detallito del día te haga sonreír.
+    </p>
+
+    <p>
+      Quiero que este nuevo año de vida venga cargado de cosas bonitas para ti: 
+      de calma cuando la necesites, de sueños que poco a poco se vayan haciendo 
+      realidad, de momentos que te hagan el corazón grande y de personas que te 
+      quieran bien. Ojalá sea un año más liviano, con menos peso encima 
+      y más espacio para las cosas que te hacen bien.
+    </p>
+
+    <p>
+      Siempre voy a querer que estés bien, que seas feliz y que la vida te trate 
+      con la misma dulzura con la que tú tratas a quienes te rodean. Te lo mereces 
+      todo, mi Bonita.
+    </p>
+
+    <p>
+      Que nunca te falten risas, abrazos, días de sol y personas que te elijan. 
+      Que este cumpleaños sea solo el inicio de algo muy bonito que está por venir. 💕
+    </p>
+
+    <p class="closing">
+      Pásalo increíble hoy. Ríete mucho y disfruta cada momento como tú sabes hacerlo. 🎉<br/>
+      <br/>Un abrazo enorme 💫
+    </p>
+  </div>
+
+  <!-- GIFs decorativos esquinas -->
+  <div class="gif-wrapper left">
+    <img src="https://media.tenor.com/GrU2xczpUhsAAAAj/hello-kitty-hearts.gif" alt="Hello Kitty" />
+  </div>
+  <div class="gif-wrapper right">
+    <img src="https://media.tenor.com/oQ4nx-q7desAAAAj/snoopy-cute.gif" alt="Snoopy" />
+  </div>
+
+  <!-- canvas-confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    const HK_GIF     = 'https://media.tenor.com/GrU2xczpUhsAAAAj/hello-kitty-hearts.gif';
+    const SNOOPY_GIF = 'https://media.tenor.com/oQ4nx-q7desAAAAj/snoopy-cute.gif';
+    const REQUIRED_TAPS = 5;
+    let giftOpened = false;
+    let giftTaps = 0;
+
+    // ── Abrir regalo con 5 toques ──
+    function openGift() {
+      if (giftOpened) return;
+
+      giftTaps += 1;
+      const remaining = REQUIRED_TAPS - giftTaps;
+      const hint = document.getElementById('gift-hint');
+      const box = document.getElementById('gift-box');
+
+      // Pequeño feedback visual en cada toque
+      box.style.transform = 'scale(1.18) rotate(4deg)';
+      setTimeout(() => { box.style.transform = ''; }, 160);
+
+      if (remaining > 0) {
+        hint.textContent = `Te faltan ${remaining} toque${remaining === 1 ? '' : 's'} 💖`;
+        return;
+      }
+
+      giftOpened = true;
+      hint.textContent = 'Abriendo sorpresa... ✨';
+
+      // 1. Esconder pantalla regalo
+      document.getElementById('gift-screen').classList.add('hide');
+
+      // 1.5 Mostrar Hello Kitty grande y quitarla sola
+      showOpeningKitty();
+
+      // 2. Mostrar tarjeta y botón música
+      setTimeout(() => {
+        document.getElementById('card').classList.add('show');
+        document.getElementById('music-btn').classList.add('show');
+      }, 400);
+
+      // 3. Confeti
+      setTimeout(launchConfetti, 500);
+
+      // 4. Iniciar stickers flotantes
+      setTimeout(startStickers, 600);
+    }
+
+    function showOpeningKitty() {
+      const openingKitty = document.getElementById('opening-kitty');
+      openingKitty.classList.add('show');
+      setTimeout(() => openingKitty.classList.remove('show'), 1900);
+    }
+
+    // ── Confeti ──
+    function launchConfetti() {
+      const colors = ['#f48fb1', '#ffffff', '#ffd6e7', '#e91e8c', '#ffeaa7'];
+      const end = Date.now() + 3500;
+
+      (function frame() {
+        confetti({ particleCount: 7, angle: 60,  spread: 55, origin: { x: 0 }, colors });
+        confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    // ── Stickers flotantes ──
+    function startStickers() {
+      const container = document.getElementById('stickers');
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      let turn = 0;
+
+      function addSticker() {
+        const src = turn % 2 === 0 ? HK_GIF : SNOOPY_GIF;
+        turn++;
+
+        const el  = document.createElement('div');
+        el.className = 'sticker';
+        el.style.left = (5 + Math.random() * 88) + 'vw';
+
+        const dur = isMobile ? (8 + Math.random() * 6) : (9 + Math.random() * 7);
+        el.style.animationDuration = dur + 's';
+        el.style.animationDelay    = (Math.random() * 1.5) + 's';
+
+        const size = isMobile ? (30 + Math.random() * 18) : (42 + Math.random() * 28);
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = turn % 2 === 0 ? 'Hello Kitty' : 'Snoopy';
+        img.style.width = size + 'px';
+
+        el.appendChild(img);
+        container.appendChild(el);
+
+        setTimeout(() => el.remove(), (dur + 3) * 1000);
+      }
+
+      // Primeras apariciones escalonadas
+      for (let i = 0; i < 5; i++) setTimeout(addSticker, i * 400);
+
+      // Continuo (más espaciado en móvil para no recargar la pantalla)
+      setInterval(addSticker, isMobile ? 2600 : 2200);
+    }
+
+    // ── Música ──
+    const audio = document.getElementById('audio');
+    const icon  = document.getElementById('music-icon');
+    const label = document.getElementById('music-label');
+    let playing  = false;
+
+    function toggleMusic() {
+      if (playing) {
+        audio.pause();
+        icon.textContent  = '🎵';
+        label.textContent = 'Reproducir';
+      } else {
+        audio.play().catch(() => {});
+        icon.textContent  = '⏸';
+        label.textContent = 'Pausar';
+      }
+      playing = !playing;
+    }
+  </script>
+</body>
+</html>
