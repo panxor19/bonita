@@ -10,6 +10,10 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --snoopy-cursor: url('https://media.tenor.com/oQ4nx-q7desAAAAj/snoopy-cute.gif');
+    }
+
     html, body {
       min-height: 100%;
       width: 100%;
@@ -25,6 +29,16 @@
       justify-content: center;
       padding: 2rem 1rem 6rem;
       position: relative;
+      cursor: var(--snoopy-cursor) 16 16, auto;
+    }
+
+    button,
+    a,
+    [role='button'],
+    .kitty-clickable,
+    #gift-screen,
+    #music-btn {
+      cursor: var(--snoopy-cursor) 16 16, pointer;
     }
 
     /* ── Pantalla de regalo ── */
@@ -576,7 +590,7 @@
         <!-- Párrafos sobre papel rayado -->
         <div class="lined-section">
           <p>
-            Hoy es un día que merece ser celebrado con todo, porque llegaste tú al mundo,
+            Hoy es un día que merece ser celebrado, porque llegaste tú al mundo,
             y eso es algo que vale mucho la pena festejar. Espero que desde que abras los
             ojos sientas que este día es especial, que te consientan, que te hagan sentir
             querida y que cada detallito del día te haga sonreír.
@@ -594,12 +608,12 @@
             todo, mi Bonita.
           </p>
           <p>
-            Que nunca te falten risas, abrazos, días de sol y personas que te elijan.
+            Que nunca te falten risas, abrazos, y personas que te elijan tal como eres.
             Que este cumpleaños sea solo el inicio de algo muy bonito que está por venir. 💕
           </p>
           <p class="closing">
-            Pásalo increíble hoy. Ríete mucho y disfruta cada momento como tú sabes hacerlo. 🎉<br/>
-            <br/>Un abrazo enorme 💫
+            Pásalo increíble hoy. Ríete mucho y disfruta cada momento. 🎉<br/>
+            <br/>Un besito y un abrazo virtual 💫
           </p>
         </div>
 
