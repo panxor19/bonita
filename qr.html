@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Cumpleaños 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 40%, #ffd6e7 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Lato', sans-serif;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #c2185b;
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      text-shadow: 0 1px 4px rgba(194,24,91,0.2);
+    }
+
+    /* ---- TORTA ---- */
+    .cake-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      filter: drop-shadow(0 8px 24px rgba(194,24,91,0.25));
+    }
+
+    /* Velas */
+    .candles {
+      display: flex;
+      gap: 22px;
+      margin-bottom: 2px;
+      padding: 0 30px;
+    }
+    .candle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flame {
+      font-size: 1.2rem;
+      animation: flicker 1.2s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+    @keyframes flicker {
+      from { transform: scaleY(1) rotate(-3deg); opacity: 1; }
+      to   { transform: scaleY(1.18) rotate(3deg); opacity: 0.85; }
+    }
+    .candle-body {
+      width: 12px;
+      height: 34px;
+      border-radius: 3px 3px 1px 1px;
+      margin-top: 1px;
+    }
+    .c1 { background: linear-gradient(to bottom, #ff80ab, #f48fb1); }
+    .c2 { background: linear-gradient(to bottom, #fff176, #ffd54f); }
+    .c3 { background: linear-gradient(to bottom, #80deea, #4dd0e1); }
+    .c4 { background: linear-gradient(to bottom, #ce93d8, #ab47bc); }
+    .c5 { background: linear-gradient(to bottom, #a5d6a7, #66bb6a); }
+
+    /* Capa superior */
+    .top-layer {
+      width: 260px;
+      background: linear-gradient(to bottom, #fce4ec, #f8bbd0);
+      border-radius: 10px 10px 0 0;
+      padding: 12px 18px 0;
+      border: 2.5px solid #f48fb1;
+      border-bottom: none;
+      position: relative;
+    }
+    .top-layer::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: -2px;
+      right: -2px;
+      height: 14px;
+      background: white;
+      border-radius: 50% 50% 0 0 / 14px 14px 0 0;
+      border: 2px solid #f48fb1;
+      border-bottom: none;
+      /* scalloped frosting */
+      background: 
+        radial-gradient(circle at 10% 100%, white 12px, transparent 13px),
+        radial-gradient(circle at 30% 100%, white 12px, transparent 13px),
+        radial-gradient(circle at 50% 100%, white 12px, transparent 13px),
+        radial-gradient(circle at 70% 100%, white 12px, transparent 13px),
+        radial-gradient(circle at 90% 100%, white 12px, transparent 13px),
+        white;
+    }
+    .top-label {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #c2185b;
+      font-size: 0.85rem;
+      text-align: center;
+      padding-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Franja de crema entre capas */
+    .frosting-band {
+      width: 290px;
+      height: 18px;
+      background: white;
+      border-left: 2.5px solid #f48fb1;
+      border-right: 2.5px solid #f48fb1;
+      position: relative;
+      overflow: hidden;
+    }
+    .frosting-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        #fff 0px, #fff 18px,
+        #fce4ec 18px, #fce4ec 36px
+      );
+      opacity: 0.5;
+    }
+
+    /* Capa principal (donde va el QR) */
+    .main-layer {
+      width: 290px;
+      background: linear-gradient(to bottom, #fff9fb, #fce4ec);
+      border: 2.5px solid #f48fb1;
+      border-top: none;
+      border-bottom: none;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+    .main-layer::before {
+      /* frosting drips top */
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: -2px;
+      right: -2px;
+      height: 26px;
+      background:
+        radial-gradient(circle at 7% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 21% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 35% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 50% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 64% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 78% 0%, white 13px, transparent 14px),
+        radial-gradient(circle at 93% 0%, white 13px, transparent 14px),
+        white;
+      border-left: 2.5px solid #f48fb1;
+      border-right: 2.5px solid #f48fb1;
+      z-index: 1;
+    }
+
+    /* QR */
+    #qrcode {
+      background: white;
+      padding: 10px;
+      border-radius: 12px;
+      border: 2px solid #f8bbd0;
+      box-shadow: 0 2px 12px rgba(244,143,177,0.3);
+    }
+    #qrcode canvas, #qrcode img {
+      display: block;
+      border-radius: 4px;
+    }
+
+    .scan-label {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #e91e8c;
+      font-size: 0.82rem;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* Base de la torta */
+    .base-layer {
+      width: 310px;
+      height: 22px;
+      background: linear-gradient(to bottom, #f48fb1, #e91e8c);
+      border: 2.5px solid #c2185b;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+    }
+
+    /* Plato */
+    .plate {
+      width: 350px;
+      height: 22px;
+      background: linear-gradient(to bottom, #fff, #f5f5f5);
+      border: 2.5px solid #e0e0e0;
+      border-radius: 50%;
+      margin-top: -4px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    /* Decoraciones flotantes */
+    .deco {
+      position: fixed;
+      font-size: 1.4rem;
+      opacity: 0.35;
+      pointer-events: none;
+      animation: floatUp 6s ease-in infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.35; }
+      100% { transform: translateY(-100vh) rotate(20deg); opacity: 0; }
+    }
+
+    /* Botón */
+    .btn-wrap {
+      margin-top: 2rem;
+    }
+    .dl-btn {
+      background: linear-gradient(135deg, #f06292, #e91e8c);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 0.7rem 2rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(233,30,140,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.5px;
+    }
+    .dl-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(233,30,140,0.45); }
+    .dl-btn:active { transform: translateY(0); }
+
+    .url-hint {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      color: #ad1457;
+      text-align: center;
+      opacity: 0.75;
+      font-family: 'Lato', sans-serif;
+    }
+
+    @media print {
+      body { background: white; }
+      .btn-wrap, .deco { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decoraciones flotantes -->
+  <span class="deco" style="left:5%;  animation-delay:0s;   animation-duration:7s;">🎀</span>
+  <span class="deco" style="left:20%; animation-delay:1.5s; animation-duration:8s;">💖</span>
+  <span class="deco" style="left:40%; animation-delay:3s;   animation-duration:6s;">✨</span>
+  <span class="deco" style="left:60%; animation-delay:0.8s; animation-duration:9s;">🎁</span>
+  <span class="deco" style="left:80%; animation-delay:2s;   animation-duration:7s;">🌸</span>
+  <span class="deco" style="left:90%; animation-delay:4s;   animation-duration:8s;">💕</span>
+
+  <h1>¡Escanéame y celebra! 🎂</h1>
+
+  <div class="cake-wrap">
+
+    <!-- Velas -->
+    <div class="candles">
+      <div class="candle"><span class="flame" style="animation-delay:0s">🔥</span><div class="candle-body c1"></div></div>
+      <div class="candle"><span class="flame" style="animation-delay:0.3s">🔥</span><div class="candle-body c2"></div></div>
+      <div class="candle"><span class="flame" style="animation-delay:0.6s">🔥</span><div class="candle-body c3"></div></div>
+      <div class="candle"><span class="flame" style="animation-delay:0.9s">🔥</span><div class="candle-body c4"></div></div>
+      <div class="candle"><span class="flame" style="animation-delay:1.2s">🔥</span><div class="candle-body c5"></div></div>
+    </div>
+
+    <!-- Capa superior -->
+    <div class="top-layer">
+      <div class="top-label">¡Feliz Cumpleaños, Bonita! 💖</div>
+    </div>
+
+    <!-- Franja crema -->
+    <div class="frosting-band"></div>
+
+    <!-- Capa principal con QR -->
+    <div class="main-layer">
+      <div id="qrcode"></div>
+      <div class="scan-label">Escanea para tu sorpresa 🎀</div>
+    </div>
+
+    <!-- Base -->
+    <div class="base-layer"></div>
+
+    <!-- Plato -->
+    <div class="plate"></div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="dl-btn" onclick="saveImage()">💾 Guardar imagen</button>
+  </div>
+
+  <div class="url-hint">panxor19.github.io/cumpleanos-bonita</div>
+
+  <!-- html2canvas para guardar imagen -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    // Generar QR
+    new QRCode(document.getElementById("qrcode"), {
+      text: "https://panxor19.github.io/cumpleanos-bonita/",
+      width: 200,
+      height: 200,
+      colorDark: "#c2185b",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Guardar como imagen
+    async function saveImage() {
+      const el = document.querySelector('.cake-wrap');
+      const canvas = await html2canvas(el, {
+        backgroundColor: null,
+        scale: 3,
+        useCORS: true
+      });
+      const link = document.createElement('a');
+      link.download = 'qr-cumpleanos-bonita.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>
